@@ -20,10 +20,10 @@ public:
 
     void load(std::string sheet, std::string meta, SDL_Renderer* ren);
 
-    void render(std::string key, SDL_Rect* dst, SDL_Renderer* ren);
+    void render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren);
 private:
 
-    SDL_Texture* sheet_texture;
+    SDL_Texture* sheetTexture;
     std::map<std::string, SDL_Rect> sprites;
 };
 
