@@ -9,10 +9,8 @@
 #define SRC_SPRITESHEET_H_
 
 #include <SDL2/SDL.h>
-#include <vector>
 #include <map>
 #include <string>
-#include <iostream>
 
 class SpriteSheet
 {
