@@ -16,8 +16,10 @@
 class Chunk
 {
 public:
+    Chunk();
     Chunk(int x, int y, unsigned w, unsigned h);
 
+    void Load(std::string fileName);
     void Add(Block block);
     const Block* Get(int x, int y);
     void Render(BlockRenderer& blockRenderer);
