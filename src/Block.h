@@ -14,9 +14,12 @@ class Block
 {
 public:
     Block(int x, int y, std::string type);
-    int x();
-    int y();
-    const std::string& type();
+    int x() const;
+    int y() const;
+    const std::string& type() const;
+
+    friend bool operator<(const Block& a, const Block& b);
+    friend bool operator==(const Block& a, const Block& b);
 private:
     int _x, _y;
     std::string _type;

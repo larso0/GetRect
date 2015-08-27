@@ -11,6 +11,8 @@
 #include "BlockRenderer.h"
 #include "Chunk.h"
 
+using std::cout;
+
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);

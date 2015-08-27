@@ -6,7 +6,6 @@
  */
 
 #include "Chunk.h"
-#include <algorithm>
 #include <stdexcept>
 
 Chunk::Chunk(int x, int y, unsigned w, unsigned h)
@@ -24,25 +23,26 @@ void Chunk::Add(Block block)
     {
         throw std::out_of_range("Tried to insert block outside of chunk.");
     }
-    std::list<Block>& list = GetBlockList(block.type());
-    std::list<Block>::iterator iter = std::find_if(
-            list.begin(),list.end(),
-            [&block](Block& b){ return block.x() == b.x() && block.y() == b.y(); }
-    );
-    if(iter == list.end())
+    auto iter = blocks.find(block);
+    if(iter == blocks.end())
     {
-        list.push_back(block);
+        blocks.insert(block);
     }
+}
+
+const Block* Chunk::Get(int x, int y)
+{
+    Block block(x, y, "");
+    auto iter = blocks.find(block);
+    if(iter == blocks.end()) return nullptr;
+    else return &(*iter);
 }
 
 void Chunk::Render(BlockRenderer& blockRenderer)
 {
     for(auto i = blocks.begin(); i != blocks.end(); i++)
     {
-        for(auto j = i->begin(); j != i->end(); j++)
-        {
-            blockRenderer.RenderBlock(*j);
-        }
+        blockRenderer.RenderBlock(*i);
     }
 }
 
@@ -64,16 +64,4 @@ unsigned Chunk::width()
 unsigned Chunk::height()
 {
     return h;
-}
-
-std::list<Block>& Chunk::GetBlockList(std::string key)
-{
-    std::list<std::list<Block> >::iterator iter = blocks.begin();
-    for(; iter != blocks.end() && iter->begin()->type() != key; iter++);
-    if(iter == blocks.end())
-    {
-        blocks.push_back(std::list<Block>());
-        return blocks.back();
-    }
-    return *iter;
 }

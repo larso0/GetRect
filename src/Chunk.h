@@ -8,7 +8,7 @@
 #ifndef SRC_CHUNK_H_
 #define SRC_CHUNK_H_
 
-#include <list>
+#include <set>
 #include <string>
 #include "Block.h"
 #include "BlockRenderer.h"
@@ -19,6 +19,7 @@ public:
     Chunk(int x, int y, unsigned w, unsigned h);
 
     void Add(Block block);
+    const Block* Get(int x, int y);
     void Render(BlockRenderer& blockRenderer);
 
     int x();
@@ -28,9 +29,8 @@ public:
 private:
     int _x, _y;
     unsigned w, h;
-    std::list<std::list<Block>> blocks;
 
-    std::list<Block>& GetBlockList(std::string key);
+    std::set<Block> blocks;
 };
 
 #endif /* SRC_CHUNK_H_ */

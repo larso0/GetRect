@@ -22,7 +22,7 @@ public:
     void SetPixelOrigin(SDL_Point pixelOrigin);
     void EnableWindow(SDL_Rect window);
     void DisableWindow();
-    void RenderBlock(Block& block);
+    void RenderBlock(const Block& block);
 
     SDL_Rect window();
     bool windowEnable();

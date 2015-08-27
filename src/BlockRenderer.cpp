@@ -40,7 +40,7 @@ void BlockRenderer::DisableWindow()
     _windowEnable = false;
 }
 
-void BlockRenderer::RenderBlock(Block& block)
+void BlockRenderer::RenderBlock(const Block& block)
 {
     SDL_Rect dst;
     dst.x = (block.x() + _blockOrigin.x) * blockSize + _pixelOrigin.x;
