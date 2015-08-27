@@ -22,9 +22,11 @@ public:
     SDL_Rect GetSrc(std::string key);
     void Render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren);
 private:
-
     SDL_Texture* sheetTexture;
     std::map<std::string, SDL_Rect> sprites;
+    std::pair<std::string, SDL_Rect> cache;
+
+    SDL_Rect& GetSrcCache(std::string& key);
 };
 
 #endif /* SRC_SPRITESHEET_H_ */

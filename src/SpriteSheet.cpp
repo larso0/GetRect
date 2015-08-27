@@ -44,14 +44,25 @@ void SpriteSheet::Load(std::string bmp, std::string meta, SDL_Renderer* ren)
 
 SDL_Rect SpriteSheet::GetSrc(std::string key)
 {
-    SDL_Rect& src = sprites[key];
+    SDL_Rect& src = GetSrcCache(key);
     return { 0, 0, src.w, src.h };
+}
+
+SDL_Rect& SpriteSheet::GetSrcCache(std::string& key)
+{
+    if(cache.first != key)
+    {
+        auto iter = sprites.find(key);
+        if(iter != sprites.end()) cache = *iter;
+        else throw std::runtime_error("No match for sprite with key \"" + key + "\".");
+    }
+    return cache.second;
 }
 
 void SpriteSheet::Render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren)
 {
     if(ren == nullptr) throw std::invalid_argument("SDL renderer pointer was a null pointer.");
-    SDL_Rect src = sprites[key];
+    SDL_Rect src = GetSrcCache(key);
     if(clip != nullptr)
     {
         src.w = clip->w;
