@@ -15,6 +15,8 @@
 class BlockRenderer
 {
 public:
+    int blockSize;
+
     BlockRenderer(SDL_Renderer* renderer);
     void SetBlockOrigin(SDL_Point blockOrigin);
     void SetPixelOrigin(SDL_Point pixelOrigin);

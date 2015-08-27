@@ -18,9 +18,9 @@ public:
     SpriteSheet();
     ~SpriteSheet();
 
-    void load(std::string sheet, std::string meta, SDL_Renderer* ren);
-
-    void render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren);
+    void Load(std::string sheet, std::string meta, SDL_Renderer* ren);
+    SDL_Rect GetSrc(std::string key);
+    void Render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren);
 private:
 
     SDL_Texture* sheetTexture;

@@ -17,7 +17,9 @@ int main(int argc, char** argv)
     SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     BlockRenderer blockRenderer(ren);
-    Block block(10, 10, "WATER_FALLING");
+    blockRenderer.EnableWindow({0, 0, 200, 200});
+    blockRenderer.blockSize = 16;
+    Block block(1, 1, "WATER_FALLING");
 
     bool running = true;
     while(running)
@@ -29,6 +31,12 @@ int main(int argc, char** argv)
             {
             case SDL_QUIT:
                 running = false;
+                break;
+            case SDL_WINDOWEVENT:
+                if(e.window.event== SDL_WINDOWEVENT_RESIZED)
+                {
+                    blockRenderer.EnableWindow({0, 0, e.window.data1, e.window.data2});
+                }
                 break;
             default:;
             }

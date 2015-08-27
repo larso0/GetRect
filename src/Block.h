@@ -10,8 +10,6 @@
 
 #include <string>
 
-const int BLOCK_SIZE = 16;
-
 class Block
 {
 public:

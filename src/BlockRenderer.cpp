@@ -10,7 +10,8 @@
 BlockRenderer::BlockRenderer(SDL_Renderer* renderer)
 {
     this->renderer = renderer;
-    sprites.load("textures/blocks.bmp", "textures/blocks.meta", renderer);
+    sprites.Load("textures/blocks.bmp", "textures/blocks.meta", renderer);
+    blockSize = 16;
     _windowEnable = false;
     _blockOrigin.x = 0;
     _blockOrigin.y = 0;
@@ -41,40 +42,46 @@ void BlockRenderer::DisableWindow()
 
 void BlockRenderer::RenderBlock(Block& block)
 {
-    SDL_Rect src, dst;
-    dst.x = (block.x() + _blockOrigin.x) * BLOCK_SIZE + _pixelOrigin.x;
-    dst.y = (block.y() + _blockOrigin.y) * BLOCK_SIZE + _pixelOrigin.y;
-    dst.w = dst.h = src.w = src.h = BLOCK_SIZE;
-    src.x = src.y = 0;
+    SDL_Rect dst;
+    dst.x = (block.x() + _blockOrigin.x) * blockSize + _pixelOrigin.x;
+    dst.y = (block.y() + _blockOrigin.y) * blockSize + _pixelOrigin.y;
+    dst.w = dst.h = blockSize;
+    SDL_Rect src = sprites.GetSrc(block.type());
     if(_windowEnable)
     {
         int tmp = _window.x + _window.w;
         if(dst.x < _window.x)
         {
-            src.x = _window.x - dst.x;
+            src.x = ((_window.x - dst.x)*src.w)/blockSize;
             src.w -= src.x;
-            if(src.w < 1) return;
+            dst.w -= _window.x - dst.x;
+            dst.x = _window.x;
+            if(src.w < 1 || dst.w < 1) return;
         }
-        else if(dst.x > tmp - BLOCK_SIZE)
+        else if(dst.x > tmp - blockSize)
         {
-            src.w -= tmp - dst.x;
-            if(src.w < 1) return;
+            dst.w = tmp - dst.x;
+            src.w = (dst.w*src.w)/blockSize;
+            if(src.w < 1 || dst.w < 1) return;
         }
 
         tmp = _window.y + _window.h;
         if(dst.y < _window.y)
         {
-            src.y = _window.y - dst.y;
+            src.y = ((_window.y - dst.y)*src.h)/blockSize;
             src.h -= src.y;
-            if(src.h < 1) return;
+            dst.h -= _window.y - dst.y;
+            dst.y = _window.y;
+            if(src.h < 1 || dst.h < 1) return;
         }
-        else if(dst.y > tmp - BLOCK_SIZE)
+        else if(dst.y > tmp - blockSize)
         {
-            src.h -= tmp - dst.y;
-            if(src.h < 1) return;
+            dst.h = tmp - dst.y;
+            src.h = (dst.h*src.h)/blockSize;
+            if(src.h < 1 || dst.h < 1) return;
         }
     }
-    sprites.render(block.type(), &src, &dst, renderer);
+    sprites.Render(block.type(), &src, &dst, renderer);
 }
 
 SDL_Rect BlockRenderer::window()

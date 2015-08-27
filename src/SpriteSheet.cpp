@@ -20,7 +20,7 @@ SpriteSheet::~SpriteSheet()
     if(sheetTexture != nullptr) SDL_DestroyTexture(sheetTexture);
 }
 
-void SpriteSheet::load(std::string bmp, std::string meta, SDL_Renderer* ren)
+void SpriteSheet::Load(std::string bmp, std::string meta, SDL_Renderer* ren)
 {
     if(ren == nullptr) throw std::invalid_argument("SDL renderer pointer was a null pointer.");
     SDL_Surface* surf = SDL_LoadBMP(bmp.c_str());
@@ -42,7 +42,13 @@ void SpriteSheet::load(std::string bmp, std::string meta, SDL_Renderer* ren)
     fclose(file);
 }
 
-void SpriteSheet::render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren)
+SDL_Rect SpriteSheet::GetSrc(std::string key)
+{
+    SDL_Rect& src = sprites[key];
+    return { 0, 0, src.w, src.h };
+}
+
+void SpriteSheet::Render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Renderer* ren)
 {
     if(ren == nullptr) throw std::invalid_argument("SDL renderer pointer was a null pointer.");
     SDL_Rect src = sprites[key];
@@ -50,6 +56,8 @@ void SpriteSheet::render(std::string key, SDL_Rect* clip, SDL_Rect* dst, SDL_Ren
     {
         src.w = clip->w;
         src.h = clip->h;
+        src.x += clip->x;
+        src.y += clip->y;
     }
     SDL_RenderCopy(ren, sheetTexture, &src, dst);
 }
