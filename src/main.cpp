@@ -7,9 +7,6 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "Block.h"
-#include "BlockRenderer.h"
-#include "Chunk.h"
 
 using std::cout;
 
@@ -19,14 +16,12 @@ int main(int argc, char** argv)
     SDL_Window* win = SDL_CreateWindow("test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 200, 200, SDL_WINDOW_RESIZABLE);
     SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    Chunk chunk;
-    chunk.Load("testchunk.chunk");
-    BlockRenderer blockRenderer(ren);
-    blockRenderer.EnableWindow({0, 0, 200, 200});
+    Uint32 time = SDL_GetTicks();
 
     bool running = true;
     while(running)
     {
+        //Handle events
         SDL_Event e;
         while(SDL_PollEvent(&e))
         {
@@ -38,16 +33,24 @@ int main(int argc, char** argv)
             case SDL_WINDOWEVENT:
                 if(e.window.event== SDL_WINDOWEVENT_RESIZED)
                 {
-                    blockRenderer.EnableWindow({0, 0, e.window.data1, e.window.data2});
                 }
                 break;
             default:;
             }
         }
 
+        //Calculate frame delta time in seconds
+        Uint32 ntime = SDL_GetTicks();
+        float delta = (float)(ntime-time)/1000.f;
+        time = ntime;
+
+        //Calculate game physics placeholder
+
+        //Render frame
         SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
         SDL_RenderClear(ren);
-        chunk.Render(blockRenderer);
+
+        //Present the frame
         SDL_RenderPresent(ren);
     }
     return 0;
