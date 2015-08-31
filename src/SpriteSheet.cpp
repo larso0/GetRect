@@ -48,6 +48,12 @@ SDL_Rect SpriteSheet::getSrc(std::string key)
     return { 0, 0, src.w, src.h };
 }
 
+SpriteSheet::SpriteSheet(std::string sheetFile, std::string metaFile, SDL_Renderer* renderer)
+{
+    sheetTexture = nullptr;
+    load(sheetFile, metaFile, renderer);
+}
+
 SDL_Rect& SpriteSheet::getSrcCache(std::string& key)
 {
     if(cache.first != key)

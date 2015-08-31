@@ -16,6 +16,7 @@ class SpriteSheet
 {
 public:
     SpriteSheet();
+    SpriteSheet(std::string sheetFile, std::string metaFile, SDL_Renderer* renderer);
     ~SpriteSheet();
 
     void load(std::string sheetFile, std::string metaFile, SDL_Renderer* renderer);
