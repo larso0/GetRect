@@ -1,4 +1,0 @@
-CHUNKS
-:testchunk.chunk ORIGIN
-:testchunk2.chunk NEIGHBOR -1 0
-.
